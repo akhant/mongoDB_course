@@ -6,7 +6,7 @@ describe("Updating records", () => {
 
   const assertName = (operation, done) => {
     operation
-    .then(() => {
+      .then(() => {
         return User.find({});
       })
       .then(users => {
@@ -14,36 +14,39 @@ describe("Updating records", () => {
         assert(users[0].name === "Alex");
         done();
       });
-  }
-  
+  };
 
   beforeEach(done => {
-    joe = new User({ name: "Joe" });
+    joe = new User({ name: "Joe", postCount: 0 });
     joe.save().then(() => {
       done();
     });
   });
 
   it("instance type use set n save", done => {
-    joe.set("name", "Alex")
-    assertName(joe.save(), done)
-      
+    joe.set("name", "Alex");
+    assertName(joe.save(), done);
   });
   it("instance can update", function(done) {
-    assertName(joe.update({ name: "Alex" }), done)
-      
+    assertName(joe.update({ name: "Alex" }), done);
   });
-
-
 
   it("A model class can update", function(done) {
-    assertName(User.update({ name: "Joe" }, { name: 'Alex'}), done)
-      
+    assertName(User.update({ name: "Joe" }, { name: "Alex" }), done);
   });
   it("A model class can update one record", function(done) {
-    assertName(User.findOneAndUpdate({ name: "Joe" }, { name: 'Alex'}), done)
+    assertName(User.findOneAndUpdate({ name: "Joe" }, { name: "Alex" }), done);
   });
   it("A model class can update with id", function(done) {
-    assertName(User.findByIdAndUpdate(joe._id, { name: 'Alex'}), done)
+    assertName(User.findByIdAndUpdate(joe._id, { name: "Alex" }), done);
+  });
+  it("increment postCount by 1", function(done) {
+    User.update({ name: "Joe" }, { $inc: { postCount: 1 } })
+    .then(() => {
+      return User.findOne({ name: "Joe" });
+    }).then(user => {
+      assert(user.postCount === 1);
+      done();
+    });
   });
 });
