@@ -45,10 +45,13 @@ describe("assosiations", () => {
         }
       })
       .then(user => {
-        assert(user.name === 'Joe')
-        assert(user.blogPosts[0].title === 'JS is Great')
-        /* assert(user.blogPosts[0].comments[0].content === "Congrats on great post") */
-        assert(user.blogPosts[0].comments[0].user.name === 'Joe') 
+        assert(user.name === "Joe");
+        assert(user.blogPosts[0].title === "JS is Great");
+
+        assert(
+          user.blogPosts[0].comments[0].content === "Congrats on great post"
+        );
+        assert(user.blogPosts[0].comments[0].user.name === "Joe");
         done();
       });
   });
