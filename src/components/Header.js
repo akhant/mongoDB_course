@@ -21,6 +21,7 @@ class Header extends Component {
 
         if (artist) {
           this.setState({ id: artist._id.toString() });
+          console.log("Header this.state.id",this.state.id)
         }
       });
   }
